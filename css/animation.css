@@ -1,0 +1,34 @@
+#gif1, #gif2, #gif3, #gif4, #gif5,
+		#gif6, #gif7, #gif8 { position: absolute; overflow: auto; } 
+   		#gif1 { 
+			bottom: 0px;
+   			right: 400px;
+   		}
+   		#gif2 {
+   			bottom: 0px; 
+    		left: 200px;
+   		}
+   		#gif3 {
+   			bottom: 0px;
+    		right: 0px;
+   		}
+   		#gif4 {
+   			top: 0px;
+   			left: 0px;
+   		}
+   		#gif5 {
+   			top: 0px;
+   			right: 0px;
+   		}
+   		#gif6 {
+   			top:  0px;
+   			right: 150px;
+   		}
+   		#gif7 {
+   			top: 0px;
+   			left: 400px;
+   		}
+   		#gif8 {
+   			bottom: 0px;
+   			left: 0px;
+   		}
