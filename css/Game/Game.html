@@ -1,0 +1,200 @@
+<html>
+<head>
+	<title>Игруля</title>
+	<style type="text/css">
+		#stat1, #stat2, #statsapp, #cowboy1, #cowboy2, #text { position: absolute; overflow: auto; } 
+   		#stat1. #text { 
+    		top: 185px;
+    		left: 170px;
+   		}
+   		#stat2 {
+   			top: 185px; 
+    		right: 220px;
+   		}
+   		#statsapp {
+   			top: 10px;
+   			left: 20px;
+   		}
+   		#cowboy1 {
+   			bottom: 20px;
+   			left: 170px;
+   		}
+   		#cowboy2 {
+   			bottom: 20px;
+   			right: 170px;
+   		}
+   		#text {
+   			top: 10px;
+   			right: 30px;
+   		}
+	</style>
+	<script type="text/javascript">   
+			var hp1 = hp2 = 150;
+			var dmg1 = dmg2 = 35;
+			var arm1 = arm2 = 30;
+			var bdmg = 9;
+			var barm = 8;
+			var dmgred = 6;
+			var armred = 7;
+			var armmin = 10;
+
+		addEventListener("keydown", function(event) {  
+			var resultHp1 = document.getElementById("resultHp1");
+			var resultUpDmg1 = document.getElementById("resultUpDmg1");
+			var resultUpArm1 = document.getElementById("resultUpArm1");
+			var resultHp2 = document.getElementById("resultHp2");
+			var resultUpDmg2 = document.getElementById("resultUpDmg2");
+			var resultUpArm2 = document.getElementById("resultUpArm2");
+
+			function playSound(url){
+				var s = new Audio();
+				s.src = url;
+				s.play();
+			}
+
+			function bot(){				//Действия "бота" в ответ на действия игрока
+				if((dmg2 - arm1) >= 20){	
+					playSound("audio/Atc.mp3");		
+	   		 		hp1 = hp1 - (dmg2 - arm1);
+	   		 		resultHp1.textContent = hp1;
+	   		 		document.Cowboy2Base.src= "image/AnimationCowboy2Attack.gif";
+	   		 		if (hp1 <= 0) alert("Вы проиграли. Для повтора обновите страницу");
+					if (hp1 <= 0 && hp2 <= 0) alert("Ничья. Для повтора обновите страницу");
+	   		 	}
+	   		 	else if ((dmg2 - arm1) <= 10 && (dmg1 - arm2) <= 10) {	
+	   		 		playSound("audio/Buff.mp3");	
+	   		 		arm2 -= armmin;
+	   		 		dmg2 += bdmg;
+	   		 		if (arm2 <= 0) arm2 = 0;
+	   		 		resultUpArm2.textContent = arm2;
+	   		 		resultUpDmg2.textContent = dmg2;
+	   		 		document.Cowboy2Base.src= "image/AnimationCowboy2BonusDamage.gif";
+	   		 	}
+	   		 	else if ((dmg1 - arm2) >= 30) {
+	   		 		playSound("audio/Buff.mp3");
+	   		 		arm2 += barm;
+	   		 		document.Cowboy2Base.src= "image/AnimationCowboy2BonusArmor.gif";
+	   		 		resultUpArm2.textContent = arm2;
+	   		 	}
+	   		 	else if (dmg1 - arm2 >= 7) {
+	   		 		playSound("audio/Debuff.mp3");
+	   		 		dmg1 -= dmgred;
+	   		 		if (dmg1 <= 0) dmg1 = 0;
+	   		 		resultUpDmg1.textContent = dmg1;
+	   		 		document.Cowboy2Base.src= "image/AnimationCowboy2DebufDmg.gif";
+	   		 	}
+	   		 	else if ((dmg2 - arm1) <= 10 && (dmg2 - arm1) >= 5 && (arm2 - dmg1) <= 10) {
+	   		 		playSound("audio/Debuff.mp3");
+	   		 		arm1 -= armred;
+	   		 		if (arm1 <= 0) arm1 = 0;
+	   		 		resultUpArm1.textContent = arm1;
+	   		 		document.Cowboy2Base.src= "image/AnimationCowboy2DebufArm.gif";
+	   		 	}	
+	   		 	else {
+	   		 		playSound("audio/Buff.mp3");
+	   		 		arm2 -= armmin;
+	   		 		dmg2 += bdmg;
+	   		 		if (arm2 <= 0) arm2 = 0;
+	   		 		resultUpArm2.textContent = arm2;
+	   		 		resultUpDmg2.textContent = dmg2;
+	   		 		document.Cowboy2Base.src= "image/AnimationCowboy2BonusDamage.gif";
+	   		 	}				
+	   		 }
+
+
+	   		 if (event.keyCode == 49)				//+защита	(клаваиша "1")
+	   		 {
+	   		 	playSound("audio/Buff.mp3");
+	   		 	arm1 += barm;
+	   		 	resultUpArm1.textContent = arm1;
+	   		 	document.Cowboy1Base.src= "image/AnimationCowboy1BonusArmor.gif";
+	   		 	bot();
+	   		 }
+
+	  		 if (event.keyCode == 50)				//+атака, -защита    (клаваиша "2")
+	  		 {
+	  		 	playSound("audio/Buff.mp3");
+	  		 	dmg1 += bdmg;
+	  		 	arm1 -= armmin;
+	  		 		if (arm1 < 0) arm1 = 0;
+	  		 	resultUpDmg1.textContent = dmg1;
+	  		 	resultUpArm1.textContent = arm1;
+	  		 	document.Cowboy1Base.src= "image/AnimationCowboy1BonusDamage.gif";
+	  		 	bot();
+	      	}
+
+	   		 if (event.keyCode == 51)				//-защита врагу		(клаваиша "3")
+	   		 {
+	   		 	playSound("audio/Debuff.mp3");
+	   		 	arm2 -= armred;
+	   		 	if (arm2 < 0) arm2 = 0;
+	   		 	resultUpArm2.textContent = arm2;
+	   		 	document.Cowboy1Base.src= "image/AnimationCowboy1DebufArm.gif";
+	   		 	bot();
+	   		 }
+
+	   		 if (event.keyCode == 52)				//-атака врагу	(клаваиша "4")
+	   		 {	
+				playSound("audio/Debuff.mp3");
+				dmg2 -= dmgred;
+				if (dmg2 < 0) dmg2 = 0;
+				resultUpDmg2.textContent = dmg2;
+				document.Cowboy1Base.src= "image/AnimationCowboy1DebufDmg.gif";
+				bot();
+			}
+
+	  	     if (event.keyCode == 53)				//атака	 (клаваиша "5")
+	  	     {
+	  	     	playSound("audio/Atc.mp3");
+	      		if (dmg1 <= arm2) hp2 = hp2;
+	      		if (dmg1 > arm2) hp2 = hp2 - (dmg1 - arm2);
+	      		if (hp2 <= 0) alert("Вы выиграли. Для повтора обновите страницу");
+	      		resultHp2.textContent = hp2;
+	      		document.Cowboy1Base.src= "image/AnimationCowboy1Attack.gif";
+	      		bot();
+	      	 }	
+	  		});
+	</script>
+</head>
+
+	<body>
+		<audio src="audio/Fon.mp3" autoplay loop></audio>
+		<img src="image/fon.jpg" width="100%" height="100%">
+		<div id="stat1">
+			<h4>Моё хп </h4>
+			<p><output id="resultHp1">150</output></p>
+			<h4>Атака </h4>
+			<p><output id="resultUpDmg1">35</output></p>
+			<h4>Защита </h4>
+			<p><output id="resultUpArm1">30</output></p>
+		</div>
+		<div id="stat2">
+			<h4>Хп врага </h4>
+			<p><output id="resultHp2">150</output></p>
+			<h4>Атака врага </h4>
+			<p><output id="resultUpDmg2">35</output></p>
+			<h4>Защита врага </h4>
+			<p><output id="resultUpArm2">30</output></p>
+		</div>
+		<div id="statsapp">
+			<p>1 - увеличить защиту на 8</p>
+			<p>2 - увеличить атаку на 9, уменьшить броню на 10</p>
+			<p>3 - уменьшить защиту врага на 7</p>
+			<p>4 - меньшить атаку врага на 6</p>
+			<p>5 - атака врага (урон равен разнице вашей атаки и защиты противника)</p>
+		</div>
+		<div id="cowboy1">
+			<img src="image/Cowboy1Base.gif" name="Cowboy1Base">
+		</div>
+		<div id="cowboy2">
+			<img src="image/Cowboy2Base.gif" name="Cowboy2Base">
+		</div>
+		<div id="text">
+			<h3>Правила игры</h3>
+			<p>Цель игры - убить противника. Для победы увеличивайте
+			свои характеристики и</p><p> понижайте чужие, путём нажатия
+			клавиш "1" - "4" (действия клавиш указаны слева </p><p> экрана)
+			и атакуйте в самый подходящий момент (клавиша "5"). Удачи!</p>
+		</div>
+	</body>
+</html>
